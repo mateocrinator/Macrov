@@ -73,7 +73,6 @@ def budget(data,productsIds, quantity):
         return budg 
     
 
-
 """
 file="MACRO.xlsx"
 listProducts = ['1.1.1','2.2.2','2.2.3']
