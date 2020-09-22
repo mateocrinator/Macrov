@@ -3,6 +3,7 @@ Repositorio proyecto Macrov
 
 # Algunos paquetes que debes instalar en tu carpeta
 Para la autenticación
+instalar esto en el IDE o en el ambiente cmd de python
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
 En caso de no tener pandas
