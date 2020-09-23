@@ -15,7 +15,7 @@ def update_excel(data,file):
     try:
         """Configure pandas to load the file, remove the header cells style and save the file in the
         correct place"""                      
-        book = load_workbook(os.path.join(os.path.dirname(os.getcwd()),"BD\{}".format(file)))
+        book = load_workbook("./BD/{}".format(file))
         writer = pd.ExcelWriter(os.path.join(os.path.dirname(os.getcwd()),"BD\{}".format(file)), engine='openpyxl') 
         writer.book = book
         
@@ -40,7 +40,8 @@ def read(file):
             Dataframe containing the file data
         """
         try:
-            data = pd.read_excel(os.path.join(os.path.dirname(os.getcwd()),"BD\{}".format(file)), sheet_name=0)
+
+            data = pd.read_excel("./BD/{}".format(file), sheet_name=0)
             return data
         except:
             print("No such file")    
@@ -64,7 +65,7 @@ def export(data,file):
         else: 
             try:
                 dataframe = pd.DataFrame(data)
-                dataframe.to_excel(os.path.join(os.path.dirname(os.getcwd()),"BD\{}".format(file)), sheet_name='Presupuesto')
+                dataframe.to_excel("./BD/{}".format(file), sheet_name='Presupuesto')
                 state="Success"
                 return(state)
             except:
@@ -89,12 +90,12 @@ def budget(data,productsIds, quantity):
         quantity=quantity
         
         dataFilter = data[data['No. Item'].isin(products)]
-        prices=dataFilter['Precio unitario'].tolist()
+        prices=dataFilter['Precio Unitario'].tolist()
         
         for i in range(len(quantity)):
             budg+=quantity[i]*prices[i]
         return budg 
-
+"""
 file="MACRO.xlsx"
 listProducts = ['1.1.1','2.2.2','2.2.3']
 quantity=[1,2,3]
@@ -105,3 +106,4 @@ fout="MacrovExported.xlsx"
 
 print(bud)
 print(export(data,fout))
+"""

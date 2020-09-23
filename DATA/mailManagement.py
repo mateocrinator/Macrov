@@ -8,6 +8,7 @@ Created on Sat Sep  5 13:45:03 2020
 from __future__ import print_function
 import pickle
 import os.path
+import os
 import email
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -41,6 +42,15 @@ def authenticate():
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
+
+def logOut():
+    """
+        Signs out of gmail by deleting token.pickle
+        RETURNS:
+            prints if it sucessfully signed out
+        """
+    os.remove("token.pickle")
+    print("\nSigned out")
 
 def readMail(subject):
     """

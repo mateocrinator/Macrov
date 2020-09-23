@@ -6,15 +6,6 @@ Para la autenticación
 instalar esto en el IDE o en el ambiente cmd de python
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
-Instalar opneyxl
-pip install openpyxl
-
-Instalar Django
-pip install Django
-
-Instalar Apache mod-wsgi
-pip install mod-wsgi
-
 En caso de no tener pandas
 pip install pandas
 
