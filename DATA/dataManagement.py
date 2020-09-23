@@ -7,7 +7,28 @@
 
 import pandas as pd
 import os
+from openpyxl import load_workbook
+import pandas.io.formats.excel
 
+
+def update_excel(data,file):
+    try:
+        """Configure pandas to load the file, remove the header cells style and save the file in the
+        correct place"""                      
+        book = load_workbook(os.path.join(os.path.dirname(os.getcwd()),"BD\{}".format(file)))
+        writer = pd.ExcelWriter(os.path.join(os.path.dirname(os.getcwd()),"BD\{}".format(file)), engine='openpyxl') 
+        writer.book = book
+        
+        pandas.io.formats.excel.header_style = None
+        
+        writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
+        data.to_excel(writer, "Presupuesto", startrow = book.worksheets[0].max_row,header=None) 
+        writer.save()
+        status = "Success"
+    except:
+        status = "Failure"
+    finally:
+        return(status)
 
 def read(file):
         """
@@ -19,7 +40,7 @@ def read(file):
             Dataframe containing the file data
         """
         try:
-            data = pd.read_excel(os.path.join(os.path.dirname(_file_),"../BD/{}").format(file), shet_name=0)
+            data = pd.read_excel(os.path.join(os.path.dirname(os.getcwd()),"BD\{}".format(file)), sheet_name=0)
             return data
         except:
             print("No such file")    
@@ -36,16 +57,18 @@ def export(data,file):
             Succes or failure
         """
         state="Failure"
-        try:
-            dataframe = pd.DataFrame(data, columns = ['No. Item', 'Analisis de precios unitarios', 'Unidad',
-                                                  'Importe de materiales', 'Importe de mano de obra',
-                                                  'Importe de equipo','Importe de auxiliares','Importe de conceptos',
-                                                  'Precio unitario'])
-            dataframe.to_excel(os.path.join(os.path.dirname(_file_),"../BD/{}").format(file),sheet_name='Presupuesto')
-            state="Success"
-            return(state)
-        except:
-            return(state)    
+        if os.path.isfile(os.path.join(os.path.dirname(os.getcwd()),"BD\{}".format(file))):
+            file="MacrovExported.xlsx"
+            data = pd.DataFrame({'No. item':'21.6.0','Analisis de precios unitarios':"Prueba actualizacion","Unidad":"día","Importe de materiales":[10000],"Importe de mano de obra":[9999],"Importe de equipo":[132958],"Importe de auxiliares":[28761],"Importe de conceptos":[48361],"Precio unitario":[9999]})
+            return update_excel(data,file)
+        else: 
+            try:
+                dataframe = pd.DataFrame(data)
+                dataframe.to_excel(os.path.join(os.path.dirname(os.getcwd()),"BD\{}".format(file)), sheet_name='Presupuesto')
+                state="Success"
+                return(state)
+            except:
+                return(state)    
             
     
 def budget(data,productsIds, quantity):
@@ -66,14 +89,12 @@ def budget(data,productsIds, quantity):
         quantity=quantity
         
         dataFilter = data[data['No. Item'].isin(products)]
-        prices=dataFilter['Precio Unitario'].tolist()
+        prices=dataFilter['Precio unitario'].tolist()
         
         for i in range(len(quantity)):
             budg+=quantity[i]*prices[i]
         return budg 
-    
 
-"""
 file="MACRO.xlsx"
 listProducts = ['1.1.1','2.2.2','2.2.3']
 quantity=[1,2,3]
@@ -84,5 +105,3 @@ fout="MacrovExported.xlsx"
 
 print(bud)
 print(export(data,fout))
-
-"""
