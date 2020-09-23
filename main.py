@@ -46,7 +46,7 @@ print("Presupuesto de para {} en cantidades respectivas {} es de :{}".format(lis
 fout="macrov.xlsx"
 print("Export: {}".format(dama.export(data,fout)))
 
-#mail.logOut()
+mail.logOut()
 
 ####################### end of tests #####################################
   
