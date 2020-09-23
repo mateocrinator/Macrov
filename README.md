@@ -9,6 +9,12 @@ pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-
 Instalar opneyxl
 pip install openpyxl
 
+Instalar Django
+pip install Django
+
+Instalar Apache mod-wsgi
+pip install mod-wsgi
+
 En caso de no tener pandas
 pip install pandas
 
